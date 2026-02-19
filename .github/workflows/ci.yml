@@ -54,8 +54,8 @@ jobs:
       # Step 5: Push Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
-          docker tag devops-api your-dockerhub-username/devops-api:latest
-          docker push your-dockerhub-username/devops-api:latest
+          docker tag devops-api parashartanish22/devops-api:latest 
+          docker push parashartanish22/devops-api:latest
 
       # Step 6: Run SonarQube analysis (this step is already configured)
       - name: SonarQube Scan
