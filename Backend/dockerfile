@@ -8,7 +8,7 @@ WORKDIR /app
 COPY go.mod go.sum ./
 
 # Download dependencies
-RUN go mod tidy
+RUN go mod download
 
 # Copy the entire project
 COPY . .
@@ -23,7 +23,14 @@ FROM alpine:latest
 WORKDIR /root/
 
 # Copy the pre-built binary from the builder stage
-COPY --from=builder /devops-api .
+COPY --from=builder /app/devops-api .
+
+# CRITICAL FIX: Copy the conf directory
+COPY --from=builder /app/conf ./conf/
+
+# OPTIONAL: Copy other runtime assets if needed
+# COPY --from=builder /app/static ./static/
+# COPY --from=builder /app/views ./views/
 
 # Expose the port the app runs on
 EXPOSE 8080
