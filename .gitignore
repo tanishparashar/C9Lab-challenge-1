@@ -1,0 +1,99 @@
+# Monorepo .gitignore for React (Vite) + Go
+# - Keep sensitive env *local* files out of git
+# - Allow committing example files like .env.example
+
+# -----------------------------
+# Node / Frontend (Vite / React)
+# -----------------------------
+# dependency directories
+node_modules/
+**/node_modules/
+
+# build outputs
+/frontend/dist/
+/frontend/build/
+/frontend/.vite/
+/frontend/.cache/
+/dist
+/build
+
+# local env files (keep secrets out of repo)
+# .env
+# .env.local
+# .env.*.local
+# .env.test
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# coverage
+coverage/
+.nyc_output/
+coverage.out
+
+# -----------------------------
+# Go / Backend
+# -----------------------------
+# compiled binaries
+/backend/bin/
+Backend/bin/
+**/bin/
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# package / object files
+pkg/
+
+# vendor (if you use vendoring)
+/vendor/
+Backend/vendor/
+
+# Go test / coverage
+coverage.out
+
+# keep modules and sums (do NOT ignore go.mod / go.sum)
+# go build cache and exec (optional)
+GOMODCACHE/
+
+# -----------------------------
+# General / IDE / OS
+# -----------------------------
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains
+.idea/
+*.iml
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# temporary / logs / misc
+*.log
+*.tmp
+*.temp
+*.swp
+
+# Docker
+docker-compose.override.yml
+.env.dev
+
+# npm / lock files: keep lockfiles tracked (recommended)
+# package-lock.json
+# yarn.lock
+
+# -----------------------------
+# Helpful notes
+# -----------------------------
+# - If you want to keep a sample env in the repo, add a file called .env.example and commit that.
+# - After updating this file, remove any already-tracked files you want ignored:
+#     git rm -r --cached node_modules frontend/dist Backend/bin
+# - Commit this .gitignore to the repo root so it applies to all subprojects.
