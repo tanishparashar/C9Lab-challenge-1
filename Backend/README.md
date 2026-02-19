@@ -54,6 +54,7 @@ This project uses **golang-migrate** for database schema versioning. Migrations 
 # Create a new migration
 .\migrate.ps1 create add_new_feature
 
+
 # Check current version
 .\migrate.ps1 version
 ```
