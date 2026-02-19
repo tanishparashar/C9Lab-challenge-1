@@ -1,6 +1,7 @@
 # role-auth-frontend (React + Vite)
 
 ## Setup
+
 ```bash
 npm install
 cp .env.example .env
