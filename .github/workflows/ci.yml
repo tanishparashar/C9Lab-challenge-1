@@ -34,7 +34,7 @@ jobs:
 
       # Step 2: Build and test Go backend
       - name: Backend test (with coverage)
-        working-directory: ./Backend # Updated to point to Backend folder
+        working-directory: ./Backend
         run: |
           go mod tidy
           go test ./...
@@ -42,19 +42,26 @@ jobs:
       # Step 3: Build Docker image for backend
       - name: Build Docker image for backend
         run: |
-          docker build -t devops-api ./Backend  # Updated to Backend folder
+          docker build -t devops-api ./Backend
 
-      # Step 4: Push Docker image to Docker Hub (Optional)
+      # Step 4: Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 5: Push Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
           docker tag devops-api your-dockerhub-username/devops-api:latest
           docker push your-dockerhub-username/devops-api:latest
 
-      # Step 5: Run SonarQube analysis
+      # Step 6: Run SonarQube analysis (this step is already configured)
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
-          projectBaseDir: . # The root directory of the repo
+          projectBaseDir: .
