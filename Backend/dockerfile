@@ -1,5 +1,8 @@
 # Stage 1: Build the Go binary
-FROM golang:1.24-alpine as builder
+FROM golang:1.24-alpine AS builder
+
+# Install build dependencies
+RUN apk add --no-cache git
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -13,22 +16,25 @@ RUN go mod download
 # Copy the entire project
 COPY . .
 
-# Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /devops-api .
+# Build the Go app - binary will be at /app/devops-api
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-w -s" -o devops-api .
 
 # Stage 2: Create the final image with the built binary
 FROM alpine:latest
 
+# Add ca-certificates for HTTPS requests
+RUN apk --no-cache add ca-certificates tzdata
+
 # Set the Current Working Directory inside the container
 WORKDIR /root/
 
-# Copy the pre-built binary from the builder stage
+# Copy the pre-built binary from the builder stage (FIXED PATH)
 COPY --from=builder /app/devops-api .
 
-# CRITICAL FIX: Copy the conf directory
+# CRITICAL: Copy configuration and runtime assets
 COPY --from=builder /app/conf ./conf/
 
-# OPTIONAL: Copy other runtime assets if needed
+# If you have static files or views, uncomment these:
 # COPY --from=builder /app/static ./static/
 # COPY --from=builder /app/views ./views/
 
