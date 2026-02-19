@@ -15,7 +15,9 @@ import (
 
 func init() {
 	_, file, _, _ := runtime.Caller(0)
-	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".." + string(filepath.Separator))))
+	// reliably set application path to the package root (parent of tests)
+	apppath := filepath.Join(filepath.Dir(file), "..")
+	apppath, _ = filepath.Abs(apppath)
 	beego.TestBeegoInit(apppath)
 }
 

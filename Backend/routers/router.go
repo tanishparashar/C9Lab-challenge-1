@@ -31,5 +31,13 @@ func init() {
 		),
 	)
 
-	beego.AddNamespace(ns)
+	// Backwards-compatible v1 object endpoints (tests expect `/v1/object`)
+	nsV1 := beego.NewNamespace("/v1",
+		beego.NSNamespace("/object",
+			beego.NSRouter("/", &controllers.ObjectController{}, "get:GetAll;post:Post"),
+			beego.NSRouter("/:objectId", &controllers.ObjectController{}, "get:Get;put:Put;delete:Delete"),
+		),
+	)
+
+	beego.AddNamespace(ns, nsV1)
 }
