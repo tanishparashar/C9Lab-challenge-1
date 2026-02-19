@@ -1,0 +1,60 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: appuser
+          POSTGRES_PASSWORD: apppass
+          POSTGRES_DB: appdb
+        ports:
+          - 5432:5432
+        options: --health-cmd "pg_isready -U appuser" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 1: Set up Go (for your Go backend)
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      # Step 2: Build and test Go backend
+      - name: Backend test (with coverage)
+        working-directory: ./Backend # Updated to point to Backend folder
+        run: |
+          go mod tidy
+          go test ./...
+
+      # Step 3: Build Docker image for backend
+      - name: Build Docker image for backend
+        run: |
+          docker build -t devops-api ./Backend  # Updated to Backend folder
+
+      # Step 4: Push Docker image to Docker Hub (Optional)
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker tag devops-api your-dockerhub-username/devops-api:latest
+          docker push your-dockerhub-username/devops-api:latest
+
+      # Step 5: Run SonarQube analysis
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          projectBaseDir: . # The root directory of the repo
