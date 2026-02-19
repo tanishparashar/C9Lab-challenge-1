@@ -108,7 +108,7 @@ func InitDB() {
 		connStr = dbURL
 	} else {
 		// Fallback to app.conf (for local development)
-		dbtype, _ := beego.AppConfig.String("dbtype")
+		// dbtype, _ := beego.AppConfig.String("dbtype")
 		dbhost, _ := beego.AppConfig.String("dbhost")
 		dbport, _ := beego.AppConfig.String("dbport")
 		dbuser, _ := beego.AppConfig.String("dbuser")
