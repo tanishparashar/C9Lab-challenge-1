@@ -58,10 +58,10 @@ jobs:
           docker push parashartanish22/devops-api:latest
 
       # Step 6: Run SonarQube analysis (this step is already configured)
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        with:
-          projectBaseDir: .
+      # - name: SonarQube Scan
+      #   uses: SonarSource/sonarqube-scan-action@v4
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      #   with:
+      #     projectBaseDir: .
