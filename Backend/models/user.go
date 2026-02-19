@@ -2,10 +2,9 @@ package models
 
 import (
 	"database/sql"
+	"devops-api/database"
 	"errors"
 	"time"
-
-	"devops-api/database"
 
 	"golang.org/x/crypto/bcrypt"
 )

@@ -43,6 +43,7 @@ docker start postgres-devops
 This project uses **golang-migrate** for database schema versioning. Migrations are automatically applied on application startup.
 
 **Quick Start:**
+
 ```powershell
 # Apply all pending migrations
 .\migrate.ps1 up
@@ -212,7 +213,7 @@ jwtexpiration = 3600
 ## Project Structure
 
 ```
-devops-api/
+Backend
 ├── conf/              # Configuration files
 │   └── app.conf      # App settings, DB connection, JWT config
 ├── controllers/       # API controllers
@@ -271,6 +272,7 @@ This project uses **golang-migrate** for database schema versioning:
 ### Migration Files
 
 Located in `migrations/` directory:
+
 - `*.up.sql` - Apply changes
 - `*.down.sql` - Rollback changes
 
@@ -295,6 +297,7 @@ ALTER TABLE accounts_user DROP COLUMN IF EXISTS avatar_url;
 ```
 
 Apply it:
+
 ```powershell
 .\migrate.ps1 up
 ```

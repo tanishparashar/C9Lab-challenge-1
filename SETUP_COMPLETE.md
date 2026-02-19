@@ -149,7 +149,7 @@ DevOps/
 ├── docker-compose.yml          # PostgreSQL container configuration
 ├── Backend/
 │   ├── req.md                  # Original requirements
-│   └── devops-api/             # Beego API project
+│   └── Backend             # Beego API project
 │       ├── conf/
 │       │   └── app.conf        # Configuration (DB, JWT settings)
 │       ├── controllers/
@@ -184,7 +184,7 @@ DevOps/
 
 ## 🔧 Configuration
 
-Edit `Backend/devops-api/conf/app.conf` to change:
+Edit `Backend/Backendconf/app.conf` to change:
 
 - Server port (default: 8080)
 - Database connection details

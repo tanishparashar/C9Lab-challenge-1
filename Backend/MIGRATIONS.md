@@ -282,7 +282,7 @@ Check:
 
 Ensure:
 
-1. You're in the correct directory (`devops-api/`)
+1. You're in the correct directory (`Backend`)
 2. `migrations/` folder exists with `.sql` files
 3. File naming follows pattern: `000001_name.up.sql`
 

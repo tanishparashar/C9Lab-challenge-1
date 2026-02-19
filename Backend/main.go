@@ -1,9 +1,9 @@
 package main
 
 import (
+	_ "Backendrouters"
 	"devops-api/database"
 	"devops-api/middleware"
-	_ "devops-api/routers"
 
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
