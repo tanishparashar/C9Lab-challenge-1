@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+  # Backend Service - PULLS from Docker Hub
+  backend:
+    image: parashartanish22/devops-api:latest # Changed from build
+    container_name: devops-api
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: "postgres://appuser:apppass@postgres:5432/appdb?sslmode=disable"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  # Frontend Service - PULLS from Docker Hub
+  frontend:
+    image: parashartanish22/devops-frontend:latest # Changed from build
+    container_name: devops-frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:16
+    container_name: devops-db
+    environment:
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432" # Added for external access if needed
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d appdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Watchtower - Auto-updates containers
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_LABEL_ENABLE=false
+    command: --interval 300 --cleanup
+    restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
