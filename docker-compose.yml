@@ -4,7 +4,7 @@ services:
   # Backend Service
   backend:
     build:
-      context: ./Backend # Updated to the Backend folder
+      context: ./Backend
       dockerfile: Dockerfile
     container_name: devops-api
     ports:
@@ -19,11 +19,11 @@ services:
   # Frontend Service
   frontend:
     build:
-      context: ./frontend # Updated to the frontend folder
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: devops-frontend
     ports:
-      - "3000:80"
+      - "8081:80" # Exposes the frontend app on port 8081
     depends_on:
       - backend
     networks:
@@ -42,35 +42,8 @@ services:
     networks:
       - app_network
 
-  # SonarQube Service (Self-Hosted)
-  sonar_db:
-    image: postgres:16
-    container_name: sonar-postgres
-    environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
-      POSTGRES_DB: sonarqube
-    volumes:
-      - sonar_pgdata:/var/lib/postgresql/data
-    networks:
-      - sonar_network
-
-  sonarqube:
-    image: sonarqube:lts-community
-    container_name: sonarqube
-    environment:
-      SONAR_JDBC_URL: "jdbc:postgresql://sonar_db:5432/sonarqube"
-      SONAR_JDBC_USERNAME: "sonar"
-      SONAR_JDBC_PASSWORD: "sonar"
-    ports:
-      - "9000:9000"
-    networks:
-      - sonar_network
-
 networks:
   app_network:
-  sonar_network:
 
 volumes:
   postgres_data:
-  sonar_pgdata:
