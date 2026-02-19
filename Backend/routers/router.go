@@ -2,8 +2,8 @@
 package routers
 
 import (
-	"devops-api/controllers"
-	"devops-api/middleware"
+	"Backend/controllers"
+	"Backend/middleware"
 
 	beego "github.com/beego/beego/v2/server/web"
 )

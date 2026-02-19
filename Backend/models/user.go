@@ -1,8 +1,8 @@
 package models
 
 import (
+	"Backend/database"
 	"database/sql"
-	"devops-api/database"
 	"errors"
 	"time"
 

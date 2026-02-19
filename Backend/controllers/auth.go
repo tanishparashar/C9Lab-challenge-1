@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"devops-api/models"
-	"devops-api/utils"
+	"Backend/models"
+	"Backend/utils"
 	"encoding/json"
 
 	beego "github.com/beego/beego/v2/server/web"

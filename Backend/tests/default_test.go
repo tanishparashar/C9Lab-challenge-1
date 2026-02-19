@@ -1,7 +1,7 @@
 package test
 
 import (
-	_ "Backendrouters"
+	_ "Backend/routers"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
