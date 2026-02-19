@@ -1,29 +1,20 @@
 # Stage 1: Build the React app
 FROM node:18-alpine AS build
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files
 COPY package.json package-lock.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the entire frontend source code
 COPY . ./
-
-# Build the app for production
 RUN npm run build
 
 # Stage 2: Serve the built app
 FROM nginx:alpine
 
-# Copy the build from the previous stage to the Nginx HTML folder
-COPY --from=build /app/build /usr/share/nginx/html
+# Vite builds to 'dist' not 'build'
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose the port the app will run on
 EXPOSE 80
 
-# Start the Nginx server
 CMD ["nginx", "-g", "daemon off;"]
