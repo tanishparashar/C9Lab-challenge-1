@@ -33,7 +33,8 @@ COPY --from=builder /app/devops-api .
 
 # CRITICAL: Copy configuration and runtime assets
 COPY --from=builder /app/conf ./conf/
-COPY --from=builder /app/migrations ./migrations/   
+COPY --from=builder /app/migrations ./migrations/
+COPY --from=builder /app/scripts ./scripts/
 # If you have static files or views, uncomment these:
 # COPY --from=builder /app/static ./static/
 # COPY --from=builder /app/views ./views/
